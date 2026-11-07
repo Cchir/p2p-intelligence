@@ -71,7 +71,7 @@ XES log ──stream──▶ Bronze parquet ──dbt──▶ Star schema ─�
 
 * **The cash forecast isn't always better.** Repeating the last 30 days beat it on one of three backtest dates, and the log-logistic model that ranks items best was a poor cash forecaster. The model was therefore chosen on a separate date.
 * **Conformal coverage isn't perfect.** The smaller flow reaches 88%, and ranges are 105 days wide. Time drift weakens the guarantee, so a deployed version should recalibrate on a rolling window.
-* **Alerts only just pay.** With a €10 review, €180 correction and half prevented, the best saving is about €15k over the test period. At €25 a review, no share pays. These costs are assumptions, not data, and the dashboard lets you change them.
+* **Alerts only just pay.** With a €10 review, €180 correction and half prevented, the best saving is about €15k over the test period. At €25 a review it falls to about €5k on 0.8% of invoices. These costs are assumptions, not data, and the dashboard lets you change them.
 * **The causal result assumes no major hidden confounder.** Packaging shows a small positive effect (+3.1 days, CI 1.3 to 4.9), but segment results weren't pre-specified, so treat that as a lead.
 * **Exceptions aren't wrongdoing.** Each one is a prompt to review.
 * **Payment terms aren't in the log**, which limits what can be said about the wait after an invoice is booked.

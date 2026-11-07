@@ -328,7 +328,7 @@ async function build() {
   card(s, 8.95, 1.85, 3.78, 4.6, "decision callout");
   stat(s, `${(100 * best.share_reviewed).toFixed(1)}%`, "of invoices is the best share to review, not all of them", 9.25, 2.05, 3.2, TEAL);
   stat(s, `${Math.round(100 * best.corrections_caught / (am.base_rate * am.n_test))}%`, "of future corrections sit in that small slice", 9.25, 3.5, 3.2, COBALT);
-  text(s, `ROC-AUC ${am.roc_auc.toFixed(2)}. Assumes €10 a review, €180 a correction and half prevented, which are inputs rather than findings. At €25 a review, no share pays.`, { x: 9.25, y: 5.05, w: 3.2, h: 1.25, fontSize: 12.5, color: MUTED, italic: true });
+  text(s, `ROC-AUC ${am.roc_auc.toFixed(2)}. Assumes €10 a review, €180 a correction and half prevented, which are inputs rather than findings. At €25 a review the saving falls to about €5k.`, { x: 9.25, y: 5.05, w: 3.2, h: 1.25, fontSize: 12.5, color: MUTED, italic: true });
   s.addNotes("This is the slide I'd most want a finance director to see. The model is decent, but whether to deploy it depends on what a review costs. The dashboard lets the client enter their own numbers.");
 
   // 13. Dashboard

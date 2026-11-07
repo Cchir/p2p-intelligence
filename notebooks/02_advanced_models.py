@@ -160,7 +160,7 @@ m["alerts"]["assumptions"], m["alerts"]["best"]
 # %% [markdown]
 # A good AUC doesn't mean a model is worth deploying. Reviewing pays only where the chance of catching
 # a correction beats review cost ÷ (correction cost × share prevented). With a €10 check the sensible
-# review share is a small slice of invoices; at €25 no share pays. Those costs are assumptions, which
+# review share is a small slice of invoices; at €25 the saving falls to about €5k on 0.8% of them. Those costs are assumptions, which
 # is why the dashboard lets the reader change them.
 #
 # ### Anomaly detection
