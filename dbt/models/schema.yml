@@ -1,0 +1,102 @@
+version: 2
+models:
+  - name: stg_cases
+    columns:
+      - name: item_id
+        tests: [unique, not_null]
+      - name: flow
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [three_way_after_gr, three_way_before_gr, two_way, consignment]
+  - name: stg_events
+    columns:
+      - name: item_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_cases')
+                field: item_id
+      - name: activity
+        tests: [not_null]
+      - name: event_ts
+        tests: [not_null]
+  - name: dim_activity
+    columns:
+      - name: activity
+        tests: [unique, not_null]
+  - name: dim_user
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+  - name: dim_vendor
+    columns:
+      - name: vendor_id
+        tests: [unique, not_null]
+  - name: dim_date
+    columns:
+      - name: date_key
+        tests: [unique, not_null]
+  - name: fct_po_items
+    columns:
+      - name: item_id
+        tests: [unique, not_null]
+      - name: created_ts
+        tests: [not_null]
+      - name: vendor_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_vendor')
+                field: vendor_id
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [paid, open, deleted]
+  - name: fct_po_documents
+    columns:
+      - name: document_id
+        tests: [unique, not_null]
+  - name: fct_item_events
+    columns:
+      - name: activity
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_activity')
+                field: activity
+  - name: mart_compliance
+    columns:
+      - name: item_id
+        tests: [unique, not_null]
+
+unit_tests:
+  - name: compliance_rules_fire_on_known_items
+    description: One clean item and one item built to break specific controls.
+    model: mart_compliance
+    given:
+      - input: ref('fct_po_items')
+        format: sql
+        rows: |
+          select 'clean' as item_id, 'd1' as document_id, 'v1' as vendor_id, 'three_way_before_gr' as flow, 'paid' as status,
+                 'x' as spend_area, 'Standard' as item_type, 100.0 as order_value_eur, true as goods_receipt_required,
+                 timestamp '2018-01-01' as created_ts, timestamp '2018-01-02' as vendor_invoice_ts, timestamp '2018-01-05' as first_gr_ts,
+                 timestamp '2018-01-06' as first_invoice_ts, timestamp '2018-02-01' as first_clear_ts,
+                 1 as n_invoices, 1 as net_invoices, 1 as n_clears, 1 as n_goods_receipts, 1 as net_goods_receipts,
+                 ['u1'] as po_users, ['u2'] as gr_users, ['u3'] as invoice_users, ['u4'] as clear_users
+          union all
+          select 'bad', 'd2', 'v1', 'three_way_before_gr', 'paid', 'x', 'Standard', 100.0, true,
+                 timestamp '2018-01-10', timestamp '2018-01-01', timestamp '2018-03-01',
+                 timestamp '2018-01-12', timestamp '2018-02-01',
+                 2, 2, 3, 1, 1, ['u1'], ['u1'], ['u3'], ['u4']
+      - input: ref('int_events_ordered')
+        format: sql
+        rows: |
+          select 'bad' as item_id, 'Change Price' as activity, timestamp '2018-01-20' as event_ts
+    expect:
+      rows:
+        - {item_id: clean, r01_paid_before_goods_receipt: false, r03_more_invoices_than_receipts: false, r05_after_the_fact_purchase: false, r06_segregation_of_duties: false, r07_price_change_after_invoice: false, r08_more_payments_than_invoices: false, n_rules_broken: 0}
+        - {item_id: bad, r01_paid_before_goods_receipt: true, r03_more_invoices_than_receipts: true, r05_after_the_fact_purchase: true, r06_segregation_of_duties: true, r07_price_change_after_invoice: true, r08_more_payments_than_invoices: true, n_rules_broken: 6}

@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+node_modules/
+
+# Rebuilt from source (the event log is ~730 MB)
+data/raw/
+data/warehouse/
+dbt/target/
+dbt/logs/
+dbt/.user.yml
+
+# Committed on purpose: dashboard/data (serving layer) and reports/

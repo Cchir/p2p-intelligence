@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync
+      - name: Lint
+        run: uv run ruff check src tests dashboard scripts notebooks/*.py
+      - name: Unit tests and dashboard smoke test (uses committed serving data)
+        run: uv run pytest -q
+
+  warehouse:
+    # Rebuild the warehouse from the public source and run every dbt model and test.
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync
+      - name: Extract, load, transform and test
+        run: uv run p2p build

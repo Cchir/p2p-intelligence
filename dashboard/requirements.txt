@@ -1,0 +1,7 @@
+# Runtime dependencies for deploying the dashboard alone (e.g. Streamlit Community Cloud).
+streamlit>=1.39
+duckdb>=1.1
+pandas>=2.2
+numpy>=1.26
+pyarrow>=17
+plotly>=5.24

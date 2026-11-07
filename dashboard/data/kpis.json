@@ -1,0 +1,11 @@
+{
+  "n_items": 251734.0,
+  "n_documents": 76349.0,
+  "n_vendors": 1975.0,
+  "order_value_eur": 996818747.0,
+  "n_events": 1595923.0,
+  "n_paid": 183677.0,
+  "n_open": 59495.0,
+  "n_deleted": 8562.0,
+  "median_days_paid_only": 76.96944444444445
+}

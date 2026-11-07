@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: bronze
+    meta:
+      external_location: "../data/raw/bronze_{name}.parquet"
+    tables:
+      - name: cases
+        description: One row per purchase order item (XES trace), all text, as published.
+      - name: events
+        description: One row per event, all text, as published.

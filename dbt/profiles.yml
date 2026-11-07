@@ -1,0 +1,7 @@
+p2p:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../data/warehouse/p2p.duckdb
+      threads: 4

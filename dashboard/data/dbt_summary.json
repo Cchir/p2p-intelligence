@@ -1,0 +1,11 @@
+{
+  "models": 16,
+  "tests": 31,
+  "tests_passed": 31,
+  "singular": [
+    "events_reconcile_to_bronze",
+    "event_numbers_are_gapless",
+    "items_reconcile_to_bronze",
+    "order_value_reconciles"
+  ]
+}

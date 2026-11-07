@@ -1,0 +1,15 @@
+name: p2p
+version: "1.0.0"
+config-version: 2
+profile: p2p
+model-paths: ["models"]
+test-paths: ["tests"]
+vars:
+  # Last day with meaningful activity: everything still unfinished is censored here.
+  snapshot_date: "2019-01-18"
+  earliest_valid_date: "2017-01-01"
+models:
+  p2p:
+    staging: { +materialized: view }
+    intermediate: { +materialized: table }
+    marts: { +materialized: table }
