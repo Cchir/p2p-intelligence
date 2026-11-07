@@ -4,7 +4,7 @@
 
 *A [Stratum](https://stratumdata.org) case study · process mining · compliance analytics · causal inference · machine learning*
 
-**[Read the case study (PDF)](presentation/Procure-to-Pay-Intelligence-Stratum.pdf)**
+**[▶ Try the live dashboard](https://p2p-intelligence-5wdy2r5plrdmd89mf49tqg.streamlit.app/)** · **[Read the case study (PDF)](presentation/Procure-to-Pay-Intelligence-Stratum.pdf)**
 
 ![Dashboard overview](reports/figures/dashboard_overview.jpg)
 
